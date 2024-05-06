@@ -82,11 +82,10 @@ const Icon = ({ name }) => {
       );
       break;
     default:
-      icon = null;
+      icon = null
   }
   return (
     <svg
-      data-testid="icon"
       width="36"
       height="36"
       viewBox="0 0 36 36"
@@ -100,6 +99,6 @@ const Icon = ({ name }) => {
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
-};
+}
 
 export default Icon;

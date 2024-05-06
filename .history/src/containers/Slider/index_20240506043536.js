@@ -7,24 +7,31 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
-  const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    // ordre décroissant
-    new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
+
+  // Faire une copie du tableau avant le tri
+  const byDateDesc = data?.focus.slice().sort(
+    (evtA, evtB) => new Date(evtB.date) - new Date(evtA.date) // Tri décroissant simplifié
   );
+
   const nextCard = () => {
-    setTimeout(
-      () => setIndex(index + 1 < byDateDesc.length ? index + 1 : 0),
+    const timer = setTimeout(
+      () => setIndex((index + 1) % byDateDesc.length),
       5000
     );
+    return () => clearTimeout(timer); // Nettoyer le timer
   };
+
   useEffect(() => {
-    nextCard();
-  });
+    const timer = nextCard();
+    return () => clearTimeout(timer); // Nettoyer le timer lors du démontage
+  }, [index, byDateDesc.length]); // Ajouter les dépendances nécessaires
+
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        // Changement de la key
-        <div key={event.date}>
+        <div key={event.id || event.date}>
+          {" "}
+          // Utiliser un ID unique ou la date si l'ID n'est pas disponible
           <div
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
@@ -43,7 +50,7 @@ const Slider = () => {
             <div className="SlideCard__pagination">
               {byDateDesc.map((_, radioIdx) => (
                 <input
-                  key={_.date}
+                  key={event.id + "-" + radioIdx} // Assurer l'unicité des clés
                   type="radio"
                   name="radio-button"
                   checked={index === radioIdx}

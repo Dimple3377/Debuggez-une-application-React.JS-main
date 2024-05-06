@@ -40,7 +40,8 @@ EventCard.propTypes = {
 EventCard.defaultProps = {
   imageAlt: "image",
   small: false,
-  // Valeur par défaut pour `title`
+  title: "Default Title", // Ajoute une valeur par défaut pour title
+  imageSrc: "default-image.png", // Ajoute une valeur par défaut pour imageSrc
 };
 
 export default EventCard;

@@ -40,7 +40,7 @@ EventCard.propTypes = {
 EventCard.defaultProps = {
   imageAlt: "image",
   small: false,
-  // Valeur par défaut pour `title`
+  title: "Titre non disponible", // Valeur par défaut pour `title`
 };
 
 export default EventCard;

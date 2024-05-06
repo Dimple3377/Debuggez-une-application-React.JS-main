@@ -32,7 +32,7 @@ EventCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
   date: PropTypes.instanceOf(Date).isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   small: PropTypes.bool,
   label: PropTypes.string.isRequired,
 };
@@ -40,7 +40,7 @@ EventCard.propTypes = {
 EventCard.defaultProps = {
   imageAlt: "image",
   small: false,
-  // Valeur par défaut pour `title`
+  title: "Titre non disponible", // Valeur par défaut pour `title`
 };
 
 export default EventCard;
