@@ -14,7 +14,6 @@ import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
   const { data } = useData();
-  // récupération dernière prestation
   const last = data?.events.sort(
     (evtA, evtB) => new Date(evtB.date) - new Date(evtA.date)
   )[0];

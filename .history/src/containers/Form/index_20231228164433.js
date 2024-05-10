@@ -4,10 +4,7 @@ import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
-const mockContactApi = () =>
-  new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  });
+const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000); })
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
@@ -19,8 +16,6 @@ const Form = ({ onSuccess, onError }) => {
       try {
         await mockContactApi();
         setSending(false);
-        // Ajout de onSucces dans le try pour afficher la confirmation du message envoyé
-        onSuccess();
       } catch (err) {
         setSending(false);
         onError(err);
@@ -61,11 +56,11 @@ const Form = ({ onSuccess, onError }) => {
 Form.propTypes = {
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
-};
+}
 
 Form.defaultProps = {
   onError: () => null,
   onSuccess: () => null,
-};
+}
 
 export default Form;

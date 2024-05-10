@@ -16,7 +16,7 @@ const Select = ({
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
-    onChange(newValue);
+    onChange();
     setValue(newValue);
     setCollapsed(newValue);
   };
@@ -88,14 +88,14 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-};
+}
 
 Select.defaultProps = {
-  onChange: (newValue) => newValue,
+  onChange: () => null,
   titleEmpty: false,
   label: "",
   type: "normal",
   name: "select",
-};
+}
 
 export default Select;
