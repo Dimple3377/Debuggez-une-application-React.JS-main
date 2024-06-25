@@ -1,5 +1,5 @@
 export const MONTHS = {
-  /* décaler les indices pour qu'ils correspondent à la valeur retournée par date.getMonth(). */
+  /* décale les indices pour qu'ils correspondent à la valeur retournée par date.getMonth(). */
   0: "janvier",
   1: "février",
   2: "mars",

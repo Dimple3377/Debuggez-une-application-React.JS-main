@@ -118,7 +118,7 @@ const Page = () => {
       <footer className="row">
         <div className="col presta">
           <h3>Notre derniére prestation</h3>
-          {/* Ajoute de last pour supprimer les erreurs "undefined" de la console 
+          {/* Ajout de last pour supprimer les erreurs "undefined" de la console 
             => Avec l'opérateur "&&", on restitue conditionnellement le composant
         */}
           {last && (
