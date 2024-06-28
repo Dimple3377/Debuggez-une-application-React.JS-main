@@ -60,7 +60,7 @@ const Page = () => {
           <h2 className="Title">Nos réalisations</h2>
           <EventList />
         </section>
-        <section className="PeoplesContainer" id="notre-equipe">
+        <section className="PeoplesContainer" id="#notre-equipe">
           <h2 className="Title">Notre équipe</h2>
           <p>Une équipe d’experts dédiés à l’ogranisation de vos événements</p>
           <div className="ListContainer">

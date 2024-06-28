@@ -7,23 +7,41 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const byDateDesc = [...(data?.focus || [])].sort((evtA, evtB) =>
     // ordre décroissant
     new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
   );
+
   const nextCard = () => {
-    setTimeout(
-      () => setIndex(index + 1 < byDateDesc.length ? index + 1 : 0),
-      5000
-    );
+    if (!isPaused) {
+      // Ne change l'index que si le slider n'est pas en pause
+      setIndex(index + 1 < byDateDesc.length ? index + 1 : 0);
+    }
   };
+  // Utilisation d'un intervalle pour changer la carte toutes les 5 secondes
   useEffect(() => {
-    nextCard();
-  });
+    const interval = setInterval(nextCard, 5000);
+    return () => clearInterval(interval);
+  }, [index, isPaused]);
+
+  // Gestion de l'événement de la barre espace pour mettre en pause / reprendre
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === " ") {
+        setIsPaused((prevIsPaused) => !prevIsPaused);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress); // Ajoute l'événement
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        // Changement de la key
         <div key={event.date}>
           <div
             className={`SlideCard SlideCard--${
@@ -46,11 +64,7 @@ const Slider = () => {
                   key={_.date}
                   type="radio"
                   name="radio-button"
-                  /*
-                    Remplacement de idx par index pour indiquer sur quelle image on se trouve 
-                  */
                   checked={index === radioIdx}
-                  // ajoute readOnly
                   readOnly
                 />
               ))}
