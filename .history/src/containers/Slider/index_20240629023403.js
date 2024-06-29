@@ -32,6 +32,7 @@ const Slider = () => {
     return () => clearInterval(interval);
   }, [isPaused, byDateDesc.length]);
 
+  // Gestion de l'événement de la barre espace pour mettre en pause / reprendre
   useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.key === " ") {
@@ -45,6 +46,7 @@ const Slider = () => {
     };
   }, []);
 
+  // Assurez-vous que les données sont chargées avant de rendre le slider
   if (!data || !data.focus) {
     return null;
   }

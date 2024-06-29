@@ -27,7 +27,15 @@ const data = {
 };
 
 describe("When slider is created", () => {
-  it("a list card is displayed", async () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("should pause and resume on space key press", async () => {
     window.console.error = jest.fn();
     api.loadData = jest.fn().mockReturnValue(data);
     render(
@@ -35,30 +43,24 @@ describe("When slider is created", () => {
         <Slider />
       </DataProvider>
     );
-    await screen.findByText("World economic forum");
-    await screen.findByText("janvier");
-    await screen.findByText(
-      "Oeuvre à la coopération entre le secteur public et le privé."
-    );
+
     // Vérifie que le premier événement est affiché
     const firstEvent = await screen.findByText("World economic forum");
     expect(firstEvent).toBeInTheDocument();
 
     // Passe à la slide suivante
-    fireEvent.keyDown(window, { key: " " });
     jest.advanceTimersByTime(5000);
-
     const secondEvent = await screen.findByText("World Gaming Day");
     expect(secondEvent).toBeInTheDocument();
 
+    // Met en pause
     fireEvent.keyDown(window, { key: " " });
     jest.advanceTimersByTime(5000);
+    expect(screen.queryByText("World Farming Day")).not.toBeInTheDocument();
 
-    expect(secondEvent).toBeInTheDocument();
-
+    // Reprend
     fireEvent.keyDown(window, { key: " " });
     jest.advanceTimersByTime(5000);
-
     const thirdEvent = await screen.findByText("World Farming Day");
     expect(thirdEvent).toBeInTheDocument();
   });

@@ -48,17 +48,22 @@ describe("When slider is created", () => {
     fireEvent.keyDown(window, { key: " " });
     jest.advanceTimersByTime(5000);
 
+    // Vérifie que le deuxième événement est affiché
     const secondEvent = await screen.findByText("World Gaming Day");
     expect(secondEvent).toBeInTheDocument();
 
+    // Pause le slider
     fireEvent.keyDown(window, { key: " " });
     jest.advanceTimersByTime(5000);
 
+    // Vérifie que le deuxième événement est toujours affiché (car en pause)
     expect(secondEvent).toBeInTheDocument();
 
+    // Reprend le slider
     fireEvent.keyDown(window, { key: " " });
     jest.advanceTimersByTime(5000);
 
+    // Vérifie que le troisième événement est affiché
     const thirdEvent = await screen.findByText("World Farming Day");
     expect(thirdEvent).toBeInTheDocument();
   });

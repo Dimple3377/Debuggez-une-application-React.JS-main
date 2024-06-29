@@ -13,13 +13,15 @@ const Select = ({
   label,
   type = "normal",
 }) => {
-  const [value, setValue] = useState();
-  const [collapsed, setCollapsed] = useState(true);
+  const [value, setValue] = useState(null); // Initialisation de `value` à null pour représenter "Toutes"
+  const [collapsed, setCollapsed] = useState(true); // Initialisation de `collapsed` à true pour que le menu soit fermé par défaut
+
   const changeValue = (newValue) => {
-    onChange(newValue);
-    setValue(newValue);
-    setCollapsed(newValue);
+    onChange(newValue); // Appel de la fonction onChange avec la nouvelle valeur
+    setValue(newValue); // Mise à jour de l'état `value` avec la nouvelle valeur
+    setCollapsed(true); // Réduire automatiquement la liste après sélection
   };
+
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
       {label && <div className="label">{label}</div>}
@@ -91,7 +93,7 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
-  onChange: () => null,
+  onChange: (newValue) => newValue,
   titleEmpty: false,
   label: "",
   type: "normal",

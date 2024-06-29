@@ -9,12 +9,10 @@ const Slider = () => {
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Trier les événements par date décroissante
   const byDateDesc = [...(data?.focus || [])].sort((evtA, evtB) =>
     new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
   );
 
-  // Passer à la carte suivante
   const nextCard = () => {
     setIndex((prevIndex) =>
       prevIndex + 1 < byDateDesc.length ? prevIndex + 1 : 0
@@ -30,8 +28,9 @@ const Slider = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isPaused, byDateDesc.length]);
+  }, [isPaused]);
 
+  // Gestion de l'événement de la barre espace pour mettre en pause / reprendre
   useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.key === " ") {
@@ -44,10 +43,6 @@ const Slider = () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
-
-  if (!data || !data.focus) {
-    return null;
-  }
 
   return (
     <div className="SlideCardList">

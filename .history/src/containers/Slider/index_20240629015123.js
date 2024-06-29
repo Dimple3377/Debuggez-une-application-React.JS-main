@@ -8,30 +8,24 @@ const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-
-  // Trier les événements par date décroissante
   const byDateDesc = [...(data?.focus || [])].sort((evtA, evtB) =>
     new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
   );
 
-  // Passer à la carte suivante
   const nextCard = () => {
-    setIndex((prevIndex) =>
-      prevIndex + 1 < byDateDesc.length ? prevIndex + 1 : 0
-    );
+    if (!isPaused) {
+      setIndex((prevIndex) =>
+        prevIndex + 1 < byDateDesc.length ? prevIndex + 1 : 0
+      );
+    }
   };
-
   // Utilisation d'un intervalle pour changer la carte toutes les 5 secondes
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isPaused) {
-        nextCard();
-      }
-    }, 5000);
-
+    const interval = setInterval(nextCard, 5000);
     return () => clearInterval(interval);
-  }, [isPaused, byDateDesc.length]);
+  }, [isPaused]); // Exécute l'effet uniquement lorsque `isPaused` change
 
+  // Gestion de l'événement de la barre espace pour mettre en pause / reprendre
   useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.key === " ") {
@@ -45,13 +39,9 @@ const Slider = () => {
     };
   }, []);
 
-  if (!data || !data.focus) {
-    return null;
-  }
-
   return (
     <div className="SlideCardList">
-      {byDateDesc.map((event, idx) => (
+      {byDateDesc?.map((event, idx) => (
         <div key={event.date}>
           <div
             className={`SlideCard SlideCard--${
@@ -67,21 +57,21 @@ const Slider = () => {
               </div>
             </div>
           </div>
+          <div className="SlideCard__paginationContainer">
+            <div className="SlideCard__pagination">
+              {byDateDesc.map((_, radioIdx) => (
+                <input
+                  key={_.date}
+                  type="radio"
+                  name="radio-button"
+                  checked={index === radioIdx}
+                  readOnly
+                />
+              ))}
+            </div>
+          </div>
         </div>
       ))}
-      <div className="SlideCard__paginationContainer">
-        <div className="SlideCard__pagination">
-          {byDateDesc.map((_, radioIdx) => (
-            <input
-              key={_.date}
-              type="radio"
-              name="radio-button"
-              checked={index === radioIdx}
-              readOnly
-            />
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
